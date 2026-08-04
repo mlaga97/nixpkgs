@@ -19,6 +19,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [
     cmake
+    qrencode
     qt6.wrapQtAppsHook
     qt6.qttools
   ];
