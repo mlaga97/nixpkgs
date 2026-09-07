@@ -1,5 +1,6 @@
 {
   lib,
+  stdenv,
   python3Packages,
   fetchFromGitHub,
   fetchpatch,
@@ -7,14 +8,15 @@
 }:
 python3Packages.buildPythonApplication (finalAttrs: {
   pname = "rclip";
-  version = "3.2.5";
+  version = "3.3.0";
   pyproject = true;
+  __structuredAttrs = true;
 
   src = fetchFromGitHub {
     owner = "yurijmikhalevich";
     repo = "rclip";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-rlrhGeNoTVuN7HjN26ahrxeBlB1VeEpBoF65qcV/A0M=";
+    hash = "sha256-QdyqECPzZZtphtjSJAKrWGwGKcYrlbSSkJ0GHs9+K10=";
   };
 
   patches = [
@@ -36,6 +38,16 @@ python3Packages.buildPythonApplication (finalAttrs: {
     uv-build
   ];
 
+  pythonRelaxDeps = [
+    "numpy"
+    "pillow"
+    "rawpy"
+    "regex"
+  ];
+  pythonRemoveDeps = lib.optionals stdenv.hostPlatform.isDarwin [
+    # unpackaged
+    "coremltools"
+  ];
   dependencies = with python3Packages; [
     ftfy
     huggingface-hub
@@ -47,13 +59,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
     requests
     tqdm
     rawpy
-  ];
-
-  pythonRelaxDeps = [
-    "numpy"
-    "pillow"
-    "rawpy"
-    "regex"
   ];
 
   pythonImportsCheck = [ "rclip" ];

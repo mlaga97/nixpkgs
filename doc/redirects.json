@@ -105,6 +105,9 @@
   "cuda-writing-tests": [
     "index.html#cuda-writing-tests"
   ],
+  "dev-environments": [
+    "index.html#dev-environments"
+  ],
   "ex-build-helpers-extendMkDerivation": [
     "index.html#ex-build-helpers-extendMkDerivation"
   ],
@@ -140,6 +143,9 @@
   "ex-writeShellApplication": [
     "index.html#ex-writeShellApplication"
   ],
+  "fetchfromtangled": [
+    "index.html#fetchfromtangled"
+  ],
   "first-package-go": [
     "index.html#first-package-go"
   ],
@@ -148,6 +154,9 @@
   ],
   "friction-graphics-wayland": [
     "index.html#friction-graphics-wayland"
+  ],
+  "getting-started": [
+    "index.html#getting-started"
   ],
   "ghc-deprecation-policy": [
     "index.html#ghc-deprecation-policy"
@@ -208,6 +217,21 @@
   ],
   "julec-hook-variables": [
     "index.html#julec-hook-variables"
+  ],
+  "juce-projucer-hook": [
+    "index.html#juce-projucer-hook"
+  ],
+  "juce-projucer-hook-example": [
+    "index.html#juce-projucer-hook-example"
+  ],
+  "juce-projucer-hook-variables": [
+    "index.html#juce-projucer-hook-variables"
+  ],
+  "juce-dontuseprojucerconfigure": [
+    "index.html#juce-dontuseprojucerconfigure"
+  ],
+  "juce-dontuseprojucerinstall": [
+    "index.html#juce-dontuseprojucerinstall"
   ],
   "libcxxhardeningextensive": [
     "index.html#libcxxhardeningextensive"
@@ -439,6 +463,9 @@
   ],
   "sec-darwin-availability-checks": [
     "index.html#sec-darwin-availability-checks"
+  ],
+  "sec-darwin-builder-vz": [
+    "index.html#sec-darwin-builder-vz"
   ],
   "sec-darwin-libcxx-deployment-targets": [
     "index.html#sec-darwin-libcxx-deployment-targets"
@@ -2438,6 +2465,18 @@
   "sec-checkpoint-build-example": [
     "index.html#sec-checkpoint-build-example"
   ],
+  "sec-redisTestHook": [
+    "index.html#sec-redisTestHook"
+  ],
+  "sec-redisTestHook-variables": [
+    "index.html#sec-redisTestHook-variables"
+  ],
+  "sec-memcachedTestHook": [
+    "index.html#sec-memcachedTestHook"
+  ],
+  "sec-memcachedTestHook-variables": [
+    "index.html#sec-memcachedTestHook-variables"
+  ],
   "chap-images": [
     "index.html#chap-images"
   ],
@@ -2788,9 +2827,6 @@
   ],
   "glycin-dont-wrap": [
     "index.html#glycin-dont-wrap"
-  ],
-  "ghc": [
-    "index.html#ghc"
   ],
   "gnome-platform": [
     "index.html#gnome-platform"
@@ -3639,7 +3675,8 @@
     "index.html#hareHook-cross-compilation"
   ],
   "haskell": [
-    "index.html#haskell"
+    "index.html#haskell",
+    "index.html#ghc"
   ],
   "haskell-available-packages": [
     "index.html#haskell-available-packages"
@@ -3768,15 +3805,9 @@
     "index.html#language-javascript"
   ],
   "javascript-introduction": [
-    "index.html#javascript-introduction"
-  ],
-  "javascript-finding-examples": [
-    "index.html#javascript-finding-examples"
-  ],
-  "javascript-finding-examples-github": [
-    "index.html#javascript-finding-examples-github"
-  ],
-  "javascript-finding-examples-gitlab": [
+    "index.html#javascript-introduction",
+    "index.html#javascript-finding-examples",
+    "index.html#javascript-finding-examples-github",
     "index.html#javascript-finding-examples-gitlab"
   ],
   "javascript-tools-overview": [

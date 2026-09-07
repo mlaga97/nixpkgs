@@ -1,33 +1,34 @@
 {
-  stdenv,
-  lib,
+  # keep-sorted start
   fetchurl,
-  mkJetBrainsProduct,
-  libdbm,
   fsnotifier,
-
+  jetbrains,
+  jetbrains-libdbm,
+  lib,
+  stdenv,
+  # keep-sorted end
 }:
 let
   system = stdenv.hostPlatform.system;
   # update-script-start: urls
   urls = {
     x86_64-linux = {
-      url = "https://download.jetbrains.com/datagrip/datagrip-2026.2.1.tar.gz";
-      hash = "sha256-t3ZYBjpQR11jRTJX5LQx4q6j+Nro6wEi4y0DXsY5ZkU=";
+      url = "https://download.jetbrains.com/datagrip/datagrip-2026.2.2.tar.gz";
+      hash = "sha256-RyzXihbj7vmROdfByTmwkljqSHxdFcd+aa2GAA+Rrjs=";
     };
     aarch64-linux = {
-      url = "https://download.jetbrains.com/datagrip/datagrip-2026.2.1-aarch64.tar.gz";
-      hash = "sha256-m3XfF56WjiWyJjWg0wN0mCJ3oeBfZvy01V566xGUm3U=";
+      url = "https://download.jetbrains.com/datagrip/datagrip-2026.2.2-aarch64.tar.gz";
+      hash = "sha256-wVkVg0SeB0cf5ad2mt5nsPPg98tbMbCXQPEoFWQdK6U=";
     };
     aarch64-darwin = {
-      url = "https://download.jetbrains.com/datagrip/datagrip-2026.2.1-aarch64.dmg";
-      hash = "sha256-1sMqgNPSAGTE3qjT3Dbp5MKJ6mCif1LHjyjnk4ixDUY=";
+      url = "https://download.jetbrains.com/datagrip/datagrip-2026.2.2-aarch64.dmg";
+      hash = "sha256-EdZcvRD7rU7hfR4tYZrmUCC/tLfdC1eX+UZ/5wFwqqE=";
     };
   };
   # update-script-end: urls
 in
-mkJetBrainsProduct {
-  inherit libdbm fsnotifier;
+jetbrains.mkJetBrainsProduct {
+  inherit jetbrains-libdbm fsnotifier;
 
   pname = "datagrip";
 
@@ -35,11 +36,18 @@ mkJetBrainsProduct {
   product = "DataGrip";
 
   # update-script-start: version
-  version = "2026.2.1";
-  buildNumber = "262.8665.339";
+  version = "2026.2.2";
+  buildNumber = "262.9437.70";
   # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
+
+  # the jdk is bundled on Darwin.
+  jdk =
+    if lib.meta.availableOn stdenv.hostPlatform jetbrains.jdk-no-jcef then
+      jetbrains.jdk-no-jcef
+    else
+      null;
 
   # NOTE: meta attrs are used for the Linux desktop entries and may cause rebuilds when changed
   meta = {
@@ -50,6 +58,7 @@ mkJetBrainsProduct {
       It allows you to quickly migrate and refactor relational databases, construct efficient, statically checked SQL queries and much more.
     '';
     maintainers = [ ];
+    teams = [ lib.teams.jetbrains ];
     license = lib.licenses.unfree;
     sourceProvenance =
       if stdenv.hostPlatform.isDarwin then

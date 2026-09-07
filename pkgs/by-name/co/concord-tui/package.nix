@@ -1,37 +1,39 @@
 {
   rustPlatform,
   fetchFromGitHub,
+  cmake,
   pkg-config,
   makeWrapper,
   nasm,
   alsa-lib,
-  opus,
   pipewire,
+  libva,
+  mesa,
   lib,
   stdenv,
   nix-update-script,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "concord-tui";
-  version = "2.5.0";
+  version = "2.5.13";
 
   src = fetchFromGitHub {
     owner = "chojs23";
     repo = "concord";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-DkbZZlURGwQCajhWmkcYmgFZDLvUOg6aU/JjGRiZY4Y=";
+    hash = "sha256-nIFzTbRvXtBDywbtXaudgOrkPXAg4HoXkbNT71VtqpE=";
   };
 
-  cargoHash = "sha256-ISWQjHUPoYPgMu+aJUDlLjp5AahauHG9BuOAANMXKRA=";
+  cargoHash = "sha256-wJVynOB3MmzD/U8P6eOPoAnCdty05VPSwgj7r2ACq5A=";
 
-  buildInputs = [
-    opus
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isLinux [
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     alsa-lib
     pipewire
+    libva
+    mesa
   ];
   nativeBuildInputs = [
+    cmake
     pkg-config
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [

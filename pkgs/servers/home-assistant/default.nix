@@ -240,6 +240,7 @@ let
       });
 
       # internal python packages only consumed by home-assistant itself
+      gazetteer-matcher = self.callPackage ./python-modules/gazetteer-matcher { };
       hass-web-proxy-lib = self.callPackage ./python-modules/hass-web-proxy-lib { };
       home-assistant-frontend = self.callPackage ./frontend.nix { };
       home-assistant-intents = self.callPackage ./intents.nix { };
@@ -270,7 +271,7 @@ let
   extraBuildInputs = extraPackages python3Packages;
 
   # Don't forget to run update-component-packages.py after updating
-  hassVersion = "2026.7.4";
+  hassVersion = "2026.9.1";
 
 in
 python3Packages.buildPythonApplication rec {
@@ -291,13 +292,13 @@ python3Packages.buildPythonApplication rec {
     owner = "home-assistant";
     repo = "core";
     tag = version;
-    hash = "sha256-EWYJcmjKgWs+JhTLfQ56jpKlTATIsUAeT4XK8XOdh4U=";
+    hash = "sha256-YaTWD5uKRjA9T0VKVh0miusR7nVuGZCsexPlYfED7ew=";
   };
 
   # Secondary source is pypi sdist for translations
   sdist = fetchPypi {
     inherit pname version;
-    hash = "sha256-i5MzLu22O5bteNwbwp6nct5zcTXpyOYrMW0kuUu/oeQ=";
+    hash = "sha256-zeCzwWuVoVuBgtLz64dOc2ifcui87rY5nUKVJyQIFCs=";
   };
 
   build-system = with python3Packages; [
@@ -329,12 +330,6 @@ python3Packages.buildPythonApplication rec {
     (replaceVars ./patches/ffmpeg-path.patch {
       ffmpeg = "${lib.getExe ffmpeg-headless}";
     })
-
-    # https://github.com/home-assistant/core/pull/172893
-    ./patches/pyjwt-2.13-compat.patch
-
-    # remove is_xdist_controller usage
-    ./patches/syrupy-5.5-compat.patch
   ];
 
   postPatch = ''
@@ -342,6 +337,10 @@ python3Packages.buildPythonApplication rec {
 
     substituteInPlace pyproject.toml \
       --replace-fail "setuptools==78.1.1" setuptools
+
+    # https://github.com/RenierM26/pyEzvizApi/commit/ae0651ea93f031e94e7286fa3439fcc12acfb001
+    substituteInPlace homeassistant/components/ezviz/switch.py \
+      --replace-fail "SupportFulldayRecord" "SupportFullDayRecord"
   '';
 
   pythonRemoveDeps = [
@@ -374,6 +373,7 @@ python3Packages.buildPythonApplication rec {
     cronsim
     cryptography
     fnv-hash-fast
+    gazetteer-matcher
     ha-ffmpeg
     hass-nabucasa
     hassil
@@ -388,6 +388,7 @@ python3Packages.buildPythonApplication rec {
     orjson
     packaging
     pillow
+    probatio
     propcache
     psutil-home-assistant
     pyjwt
@@ -451,6 +452,10 @@ python3Packages.buildPythonApplication rec {
       colorlog
       # Used in tests/helpers/test_httpx_client.py
       h2
+      # Used in tests/mypy_plugins/test_enum_identity_compare.py
+      mypy
+      # Used in tests/scripts/check_requirements/test_gate.py
+      pygithub
     ])
     ++ lib.concatMap (component: getPackages component python3Packages) [
       # some components are needed even if tests in tests/components are disabled
@@ -488,10 +493,6 @@ python3Packages.buildPythonApplication rec {
     "tests/test_test_fixtures.py::test_evict_faked_translations"
     "tests/helpers/test_backup.py::test_async_get_manager"
     "tests/helpers/test_trigger.py::test_platform_multiple_triggers[sync_action]"
-    # various failing after python-updates
-    "tests/helpers/test_entity_platform.py::test_platform_warn_slow_setup" # ValueError: not enough values to unpack (expected 2, got 0)
-    "tests/helpers/test_entity_component.py::test_set_scan_interval_via_config" # assert 10 == 30.0
-    "tests/helpers/test_entity_component.py::test_set_entity_namespace_via_config" # AssertionError: assert [] == ['test_domain...named_device']
   ];
 
   preCheck = ''

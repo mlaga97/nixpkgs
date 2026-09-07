@@ -12,9 +12,11 @@
   myst-parser,
 
   # optionals
+  arabic-reshaper,
   cryptography,
   fonttools,
   pillow,
+  python-bidi,
 
   # tests
   fpdf2,
@@ -24,7 +26,7 @@
 
 buildPythonPackage rec {
   pname = "pypdf";
-  version = "6.14.2";
+  version = "6.16.2";
   pyproject = true;
 
   src = fetchFromGitHub {
@@ -33,7 +35,7 @@ buildPythonPackage rec {
     tag = version;
     # fetch sample files used in tests
     fetchSubmodules = true;
-    hash = "sha256-h7JuQTTUZ5tWoAhixjp+grDVA3JQ8PbHcMBzIyCMOJU=";
+    hash = "sha256-SgEYnhScwvWy8J7Wxp0TdGZkX++99cUs8E7+7su1zcg=";
   };
 
   outputs = [
@@ -55,10 +57,14 @@ buildPythonPackage rec {
   ];
 
   optional-dependencies = rec {
-    full = crypto ++ fonts ++ image;
+    full = crypto ++ fonts ++ image ++ rtl_text;
     crypto = [ cryptography ];
     fonts = [ fonttools ];
     image = [ pillow ];
+    rtl_text = [
+      arabic-reshaper
+      python-bidi
+    ];
   };
 
   pythonImportsCheck = [ "pypdf" ];

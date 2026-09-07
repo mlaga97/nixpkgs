@@ -54,14 +54,14 @@
 
 buildPythonPackage (finalAttrs: {
   pname = "viser";
-  version = "1.0.30";
+  version = "1.1.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "viser-project";
     repo = "viser";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-f9dUF2zz3KNIt+/Sgpb0MLiCNXoKUmXeyY3XlBblVzk=";
+    hash = "sha256-N7Ry+KQagT/PTNsUtxVmEdKv4zgMIFOEgaYr1OwdYoM=";
   };
 
   postPatch = ''
@@ -81,7 +81,7 @@ buildPythonPackage (finalAttrs: {
   npmDeps = fetchNpmDeps {
     name = "${finalAttrs.pname}-${finalAttrs.version}-npm-deps";
     src = finalAttrs.src + "/src/viser/client/";
-    hash = "sha256-mx5vqgiZRWYruDbjAPgCCc7hewTqH9jsXrerL8XbOMY=";
+    hash = "sha256-D96EWBs2yOHeJGsyiU+QWDP9KcteQZRQkssnNh8g//c=";
   };
 
   preBuild = ''
@@ -173,6 +173,8 @@ buildPythonPackage (finalAttrs: {
   pythonRelaxDeps = [
     # rich<15.0.0,>=13.3.3 not satisfied by version 15.0.0
     "rich"
+    # trimesh<5.0.0,>=3.21.7 not satisfied by version 5.0.0
+    "trimesh"
   ];
 
   __darwinAllowLocalNetworking = true;

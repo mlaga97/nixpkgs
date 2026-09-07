@@ -10,7 +10,7 @@
 
 let
   pname = "jetbrains-toolbox";
-  version = "3.6.2.85969";
+  version = "3.7.2.87231";
 
   updateScript = ./update.sh;
 
@@ -57,9 +57,9 @@ let
         aarch64 = "-arm64";
       };
       hash = selectSystem {
-        x86_64-linux = "sha256-2XvsZ5WrdmDGTigKWJCUJB2VkHj+Z3M8QClp6YoIIRw=";
-        aarch64-linux = "sha256-/8j7vJGTCvj57I1kqUCyBSDoJA8Tr0MUaomhb0Um7vA=";
-        aarch64-darwin = "sha256-esf/AfRDGoWV05KWb7CfJBRQvkcs3bG5/IldcTuNZOA=";
+        x86_64-linux = "sha256-zAFofzeVP8VCCk7sZzSa0Jc8YGa4ksgwhY0UNxMUP9E=";
+        aarch64-linux = "sha256-tpOC62foC/0wTGglulJuM+2XQizpfh/nGLaNx2wY3bQ=";
+        aarch64-darwin = "sha256-y/BPXhe67IP21hcIOeiBpn3D0wIX3AeZLsFeRAWomuQ=";
       };
     in
     selectKernel {
@@ -88,7 +88,7 @@ selectKernel {
         with pkgs;
         [
           icu
-          libappindicator-gtk3
+          libappindicator
         ]
         ++ appimageTools.defaultFhsEnvArgs.multiPkgs pkgs;
       runScript = "${src}/bin/jetbrains-toolbox --update-failed";

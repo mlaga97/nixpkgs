@@ -6,7 +6,7 @@
   dpkg,
   atkmm,
   cairo,
-  cairomm,
+  cairomm_1_0,
   gtk3,
   gtkmm3,
   libnotify,
@@ -17,7 +17,7 @@
   librsvg,
   libzip,
   openssl,
-  libappindicator-gtk3,
+  libappindicator,
 }:
 
 stdenv.mkDerivation rec {
@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     atkmm
     cairo
-    cairomm
+    cairomm_1_0
     gtk3
     gtkmm3
     libnotify
@@ -48,7 +48,7 @@ stdenv.mkDerivation rec {
     librsvg
     libzip
     openssl
-    libappindicator-gtk3
+    libappindicator
   ];
 
   dontUnpack = true;

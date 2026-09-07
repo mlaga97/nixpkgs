@@ -49,13 +49,13 @@ let
 in
 buildGoModule (finalAttrs: {
   pname = "nezha";
-  version = "2.3.0";
+  version = "2.3.8";
 
   src = fetchFromGitHub {
     owner = "nezhahq";
     repo = "nezha";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-wlGDNsh67pAuPPgae56bXrtDsgwuviLxiaZ6CrOi3go=";
+    hash = "sha256-MW3DgW9bdWiucwiVQdVojlZ0Sl4Pd+l8SWkMGf929pQ=";
   };
 
   proxyVendor = true;
@@ -95,7 +95,7 @@ buildGoModule (finalAttrs: {
     GOROOT=''${GOROOT-$(go env GOROOT)} swag init --pd -d cmd/dashboard -g main.go -o cmd/dashboard/docs
   '';
 
-  vendorHash = "sha256-U2rZVluYM+XcI8e9TBXAlb9sKz4IL+FMEj1CTDcH6qM=";
+  vendorHash = "sha256-NpGdVymENUkxW1N3BQGdVPGbp/snMOf22khQ6xEsNuk=";
 
   ldflags = [
     "-s"

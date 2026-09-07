@@ -68,18 +68,25 @@ let
       binaryName = "netbird-proxy";
       license = lib.licenses.agpl3Only;
     };
+    combined = {
+      module = "combined";
+      binaryName = "netbird-server";
+      license = lib.licenses.agpl3Only;
+    };
   };
   component = availableComponents.${componentName};
 in
 buildGoModule (finalAttrs: {
   pname = "netbird-${componentName}";
-  version = "0.76.1";
+  version = "0.78.1";
+
+  __structuredAttrs = true;
 
   src = fetchFromGitHub {
     owner = "netbirdio";
     repo = "netbird";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-gxcb1CQ2f8g8wYEt1z2rvJrcoXy2k7pSSMaLmfqmISc=";
+    hash = "sha256-YWLorAu71hG5BJLXsZwtQf86o51KCn2/1wI1DRg/aCg=";
   };
 
   overrideModAttrs = final: prev: {
@@ -93,7 +100,7 @@ buildGoModule (finalAttrs: {
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-KVGCV89qGHrg2GQVw6MnftQswbdihcqozptjf5vs5BA=";
+  vendorHash = "sha256-E8NeS88Ab5sumDxyH54y3GIWcXQQzRT0UXO+xwcQpUU=";
 
   nativeBuildInputs = [
     installShellFiles

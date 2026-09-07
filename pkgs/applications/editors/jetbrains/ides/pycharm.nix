@@ -1,34 +1,36 @@
 {
-  stdenv,
-  lib,
+  # keep-sorted start
   fetchurl,
-  mkJetBrainsProduct,
-  libdbm,
   fsnotifier,
-  pyCharmCommonOverrides,
+  jetbrains,
+  jetbrains-libdbm,
+  lib,
   musl,
+  python3,
+  stdenv,
+  # keep-sorted end
 }:
 let
   system = stdenv.hostPlatform.system;
   # update-script-start: urls
   urls = {
     x86_64-linux = {
-      url = "https://download.jetbrains.com/python/pycharm-2026.2.tar.gz";
-      hash = "sha256-rDb3wHQ0ZSFb+CJwebdycpRTOMSFwdprkk5WRoBGvVo=";
+      url = "https://download.jetbrains.com/python/pycharm-2026.2.0.1.tar.gz";
+      hash = "sha256-SjfLLRVwNVPGHoFNjgFL+kcwhQhHDeX5aMTpZFt3FnU=";
     };
     aarch64-linux = {
-      url = "https://download.jetbrains.com/python/pycharm-2026.2-aarch64.tar.gz";
-      hash = "sha256-O2PS9JDBTFQcmK/YUfIYBpo8iFzq7dm9sA5aByhc+AI=";
+      url = "https://download.jetbrains.com/python/pycharm-2026.2.0.1-aarch64.tar.gz";
+      hash = "sha256-8ptqeCpY+rsjJxXbj++XZb/a68brWQ7UYsT5ZWIidCc=";
     };
     aarch64-darwin = {
-      url = "https://download.jetbrains.com/python/pycharm-2026.2-aarch64.dmg";
-      hash = "sha256-wiOQISfsvBnlpjeyzAPXUJfXOwYwrZ8nGoiRRvQ4YUY=";
+      url = "https://download.jetbrains.com/python/pycharm-2026.2.0.1-aarch64.dmg";
+      hash = "sha256-X3YP6mtKkBvBp2UoQWfwX5AjenwwwKTSmP9GUESVDdQ=";
     };
   };
   # update-script-end: urls
 in
-(mkJetBrainsProduct {
-  inherit libdbm fsnotifier;
+jetbrains.mkJetBrainsProduct {
+  inherit jetbrains-libdbm fsnotifier;
 
   pname = "pycharm";
 
@@ -36,11 +38,26 @@ in
   product = "PyCharm";
 
   # update-script-start: version
-  version = "2026.2";
-  buildNumber = "262.8665.309";
+  version = "2026.2.0.1";
+  buildNumber = "262.8665.369";
   # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
+
+  # the jdk is bundled on Darwin.
+  jdk =
+    if lib.meta.availableOn stdenv.hostPlatform jetbrains.jdk-no-jcef then
+      jetbrains.jdk-no-jcef
+    else
+      null;
+
+  nativeBuildInputs = [
+    # keep-sorted start
+    jetbrains.cythonDebugSpeedupsHook
+    python3
+    python3.pkgs.setuptools
+    # keep-sorted end
+  ];
 
   buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     musl
@@ -58,6 +75,7 @@ in
     maintainers = with lib.maintainers; [
       tymscar
     ];
+    teams = [ lib.teams.jetbrains ];
     license = lib.licenses.unfree;
     sourceProvenance =
       if stdenv.hostPlatform.isDarwin then
@@ -65,5 +83,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  pyCharmCommonOverrides
+}

@@ -4,34 +4,26 @@
   fetchFromGitHub,
   rustPlatform,
   installShellFiles,
-  git,
-  uv,
-  python312,
   versionCheckHook,
   nix-update-script,
 }:
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "prek";
-  version = "0.4.10";
+  version = "0.5.2";
+  __structuredAttrs = true;
 
   src = fetchFromGitHub {
     owner = "j178";
     repo = "prek";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-tTr/Aob6jP1YL+n5vGkUkByew73WdP3mqLW5Lci1gNM=";
+    hash = "sha256-8LvrsmHTvlJ/1xrVsO/81zZBOVv6nyJ1rKeF8DCrTf8=";
   };
 
-  cargoHash = "sha256-He55uH7t7NI5sYgowujqCMK5yjhC2F+8ZLxKG6TLjYY=";
+  cargoHash = "sha256-COOU7CelDvnMKxBbAPiNvo+E+GnrS+tXiyqPBdUYBMk=";
 
   nativeBuildInputs = [
     installShellFiles
-  ];
-
-  nativeCheckInputs = [
-    git
-    python312
-    uv
   ];
 
   # many tests just do not work, as they require network access

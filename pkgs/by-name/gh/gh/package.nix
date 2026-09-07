@@ -10,7 +10,7 @@
 
 buildGoModule (finalAttrs: {
   pname = "gh";
-  version = "2.97.0";
+  version = "2.100.0";
 
   __structuredAttrs = true;
 
@@ -18,10 +18,10 @@ buildGoModule (finalAttrs: {
     owner = "cli";
     repo = "cli";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-yG3bo7YVs1Q//9PePusU0m4TilujQMxI4Faz26iAb5g=";
+    hash = "sha256-9tnSQPSqllE+Ke6LKyNbnOF1drzdEwesEuPdmWD1X5c=";
   };
 
-  vendorHash = "sha256-XeXHMEhe1ZVWtenyYIzaYjNovaArvI0xBRWVabUF9KU=";
+  vendorHash = "sha256-ZqUs2BnasF3QBX0I2Sxh2A/CnO61Vy6gRn1hkf0n9AY=";
 
   nativeBuildInputs = [
     installShellFiles
